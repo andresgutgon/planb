@@ -5,8 +5,12 @@
 - [x] Hot Module Replacement HMR
 - [x] React
 - [x] Add HMR for React
-- [] React Router 4
+- [x] React Router 4
 - [] Code Splitting
+- [] Add Flow
+- [] Add Google Auth
+- [] Add JWT integration/authenticated routes
+- [] Add react-boostrap and boostraps styles
 
 ## Webpack Dev Server
 ```

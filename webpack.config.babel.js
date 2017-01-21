@@ -12,6 +12,7 @@ export default {
   },
   devServer: {
     contentBase: `${__dirname}/src`,
+    historyApiFallback: true,
   },
   module: {
     rules: [
