@@ -3,7 +3,9 @@
 - [x] Setup webpack 2
 - [x] Setup Babel
 - [x] Hot Module Replacement HMR
-- [] React + React Router 4
+- [x] React
+- [] Add HMR for React
+- [] React Router 4
 - [] Code Splitting
 
 ## Webpack Dev Server

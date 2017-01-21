@@ -3,7 +3,7 @@ import webpack from 'webpack';
 export default {
   context: `${__dirname}/src`,
   entry: {
-    app: './app.js',
+    app: './index.js',
   },
   output: {
     path: `${__dirname}/build`,
@@ -20,7 +20,9 @@ export default {
         use: [
           {
             loader: 'babel-loader',
-            options: { presets: ['es2015'] }
+            options: {
+              presets: ['es2015', 'react']
+            }
           }
         ],
         exclude: /node_modules/,
