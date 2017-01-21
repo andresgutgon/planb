@@ -28,7 +28,7 @@ export default class App extends Component {
 
     return (
       <header>
-        <h1>LOL</h1>
+        <h1>CARAMBA!</h1>
         <div>Webpack is doing its thing with React and ES2015</div>
         <div>{counter}</div>
       </header>

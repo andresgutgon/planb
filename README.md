@@ -4,7 +4,7 @@
 - [x] Setup Babel
 - [x] Hot Module Replacement HMR
 - [x] React
-- [] Add HMR for React
+- [x] Add HMR for React
 - [] React Router 4
 - [] Code Splitting
 
@@ -14,6 +14,7 @@ webpack-dev-server --progress --inline
 ```
 `--progress` displays the compilation progress when building
 `--inline` adds webpacks automatic refresh code inline with the compile application
+`--hot` Switch the server to **hot** mode.
 
 ## References
 * [react-hot-module-replacement-with-webpack](http://matthewlehner.net/react-hot-module-replacement-with-webpack/)

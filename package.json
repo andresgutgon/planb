@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "webpack-dev-server --progress --inline"
+    "start": "webpack-dev-server --progress --inline --hot"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
@@ -8,6 +8,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
+    "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.26.1",
     "node-sass": "^4.3.0",
     "sass-loader": "^4.1.1",
