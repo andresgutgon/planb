@@ -7,11 +7,11 @@
 - [x] Add HMR for React
 - [x] React Router 4
 - [x] Code Splitting (test with lodash)
-- [] Setup global styles folder
+- [x] Setup global styles folder
+- [x] Add nprogress
 - [] Add bootstrap styles
 - [] Add CSSModules
 - [] Check if react-hot-loader is needed
-- [] Add nprogress
 
 - [] Add Google Auth
 - [] Add JWT integration/authenticated routes
