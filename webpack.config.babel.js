@@ -26,7 +26,14 @@ export default {
                 'es2015',
                 'react',
                 'react-hmre',
-              ]
+              ],
+              // TODO: maybe add babel-transform-runtime
+              // http://babeljs.io/docs/plugins/transform-runtime/
+              // transform-runtime
+              plugins: [
+                'syntax-dynamic-import',
+                'transform-class-properties',
+              ],
             }
           }
         ],
