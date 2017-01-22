@@ -8,16 +8,10 @@ const autoprefixer = require('autoprefixer');
 const PRODUCTION = false;
 const DEV = !PRODUCTION;
 
-export default {
+module.exports = {
   entry: {
     coreCSS: path.resolve(__dirname, 'src/styles/layout.scss'),
   },
-  // output: {
-  //   path: path.resolve(__dirname, 'dist'),
-  //   filename: '[name].css',
-  //   chunkFilename: '[name].[id].js',
-  //   publicPath: '/css/'
-  // },
   devtool: DEV ? 'inline-source-map' : undefined,
   module: {
     rules: [

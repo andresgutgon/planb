@@ -9,15 +9,15 @@
 - [x] Code Splitting (test with lodash)
 - [x] Setup global styles folder
 - [x] Add nprogress
-- [] Add bootstrap styles
-- [] Add CSSModules
-- [] Check if react-hot-loader is needed
-
+- [x] Add react-hot-loader
+- [] Add RedboxReact (helpful errors on development)
 - [] Add Google Auth
 - [] Add JWT integration/authenticated routes
 
-- [] Add Flow
 - [] Add Mobx
+- [] Add bootstrap styles
+- [] Add CSSModules
+- [] Add Flow
 - [] Add react-boostrap
 
 ## Webpack TODO
@@ -30,6 +30,11 @@
 - [] Investigate setup manifest. It's related with
 webworkers.
 
+## NOTES on async routes
+Routes are lazy loaded in production. In development all the javascript
+load at the same time. This is a limitation due to the fact that async routes
+break React Hot Reloading.
+
 ## Improve Webpack Config
 Start [reading here](http://survivejs.com/webpack/developing-with-webpack/splitting-configuration/)
 
@@ -39,7 +44,7 @@ webpack-dev-server --progress --inline
 ```
 `--progress` displays the compilation progress when building
 `--inline` adds webpacks automatic refresh code inline with the compile application
-`--hot` Switch the server to **hot** mode.
+`--hot` Switch the server to **hot** mode. DON't use if you're using webpack Hotmodulereplacementplugin
 
 ## References
 * [Code Splitting article](https://medium.com/@apostolos/server-side-rendering-code-splitting-and-hot-reloading-with-react-router-v4-87239cfc172c#.epngc9khn)

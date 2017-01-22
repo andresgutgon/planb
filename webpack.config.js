@@ -1,15 +1,16 @@
-import path from 'path';
-import merge from 'webpack-merge';
+var path = require('path');
+var merge = require('webpack-merge');
 
-import jsConfig from './webpack.js.config';
-import cssConfig from './webpack.css.config';
+var jsConfig = require('./webpack.js.config');
+var cssConfig = require('./webpack.css.config');
 
 // TODO: implement production build
 const DEV = true;
 
-const commonConfig = {
+const config = {
   context: `${__dirname}/src`,
   target: 'web',
+  devtool: 'eval',
   performance: { hints: false },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -26,8 +27,8 @@ const commonConfig = {
   },
 };
 
-export default merge.smart(
-  commonConfig,
+module.exports = merge.smart(
+  config,
   cssConfig,
   jsConfig
 );

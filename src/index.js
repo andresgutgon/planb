@@ -1,13 +1,33 @@
 import { render } from 'react-dom';
 import React from 'react';
+import { AppContainer } from 'react-hot-loader';
 import nprogress from 'nprogress';
 
 import App from './containers/App';
 
-// Configure spinner
+// Configure nprogress spinner
 nprogress.configure({ showSpinner: false });
 
-const containerEl = document.getElementById('container');
+const containerEl = document
+      .getElementById('container');
 
-render(<App/>, containerEl
+render(
+  <AppContainer>
+    <App/>
+  </AppContainer>,
+  containerEl
 );
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./containers/App', () => {
+    const App = require('./containers/App').default;
+
+    render(
+      <AppContainer>
+        <App/>
+      </AppContainer>,
+      containerEl
+    );
+  });
+}

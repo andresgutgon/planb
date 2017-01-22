@@ -1,19 +1,17 @@
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const webpack = require('webpack');
+const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 
 // TODO: implement production build
 const DEV = true;
 
-export default {
+const config = {
   entry: {
-    app: path.resolve(__dirname, 'src/index.js'),
+    app: [
+      path.resolve(__dirname, 'src/index.js'),
+    ],
   },
-  // output: {
-  //   path: path.resolve(__dirname, 'dist'),
-  //   filename: DEV ? '[name].js' : '[name].[chunkhash].js',
-  //   chunkFilename: DEV ? '[name].js' : '[name].[chunkhash].js',
-  //   publicPath: '/js/',
-  // },
   module: {
     rules: [
       {
@@ -25,7 +23,7 @@ export default {
               presets: [
                 'es2015',
                 'react',
-                'react-hmre',
+                'stage-0'
               ],
               // TODO: maybe add babel-transform-runtime
               // http://babeljs.io/docs/plugins/transform-runtime/
@@ -33,6 +31,7 @@ export default {
               plugins: [
                 'syntax-dynamic-import',
                 'transform-class-properties',
+                'react-hot-loader/babel',
               ],
             }
           }
@@ -40,5 +39,37 @@ export default {
         exclude: /node_modules/,
       },
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new DefinePlugin({
+      'process.env.NODE_ENV': DEV ? JSON.stringify('development') : JSON.stringify('production')
+    }),
+  ]
 };
+
+if (DEV) {
+  const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
+  const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
+
+  config.entry.app.unshift(
+    'webpack-hot-middleware/client',
+    'react-hot-loader/patch'
+  );
+
+  // Uncomment me to test async routes
+  // WARNING: Breaks routes hot loading!
+  // config.plugins.push(
+  //   new NormalModuleReplacementPlugin(
+  //     /^\.\.\/routes\/Routes$/,
+  //     '../routes/RoutesAsync'
+  //   )
+  // );
+
+  config.plugins.push(
+    new HotModuleReplacementPlugin(),
+    new NoEmitOnErrorsPlugin()
+  );
+}
+
+module.exports = config;
