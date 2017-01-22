@@ -10,9 +10,8 @@
 - [x] Setup global styles folder
 - [x] Add nprogress
 - [x] Add react-hot-loader
-- [] Add RedboxReact (helpful errors on development)
-- [] Add Google Auth
-- [] Add JWT integration/authenticated routes
+- [x] Add RedboxReact (helpful errors on development)
+- [ ] Transform project into a server side project
 
 - [] Add Mobx
 - [] Add bootstrap styles

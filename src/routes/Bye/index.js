@@ -6,7 +6,7 @@ const Bye = (props) => (
     <p>isEqual: {isEqual({a: 'b'}, {b: 'a'}) ? 'true' : 'false'}</p>
     <input type="text"/>
     <div>
-      Bye fucking World from <strong>Bye route</strong>
+      Bye World from <strong>Bye route</strong>
     </div>
   </div>
 );

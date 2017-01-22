@@ -5,15 +5,14 @@ import Miss from 'react-router/Miss';
 
 import * as Routes from '../routes/Routes';
 import Miss404 from '../routes/miss404';
-
-require('../styles/layout.scss');
+import Header from '../components/Header';
 
 class Layout extends React.PureComponent {
   render() {
     // TODO: Add Header component here
-    // <Header />
     return (
       <div>
+        <Header />
         <div className="App-reddit-selector">
           <Link to="/">Home</Link> -
           <Link to="/hello-world">Hello World</Link> -

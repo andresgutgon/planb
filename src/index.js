@@ -1,6 +1,7 @@
 import { render } from 'react-dom';
 import React from 'react';
 import { AppContainer } from 'react-hot-loader';
+import Redbox from 'redbox-react';
 import nprogress from 'nprogress';
 
 import App from './containers/App';
@@ -12,7 +13,7 @@ const containerEl = document
       .getElementById('container');
 
 render(
-  <AppContainer>
+  <AppContainer errorReporter={Redbox}>
     <App/>
   </AppContainer>,
   containerEl
