@@ -1,52 +1,33 @@
-import webpack from 'webpack';
+import path from 'path';
+import merge from 'webpack-merge';
 
-export default {
+import jsConfig from './webpack.js.config';
+import cssConfig from './webpack.css.config';
+
+// TODO: implement production build
+const DEV = true;
+
+const commonConfig = {
   context: `${__dirname}/src`,
-  entry: {
-    app: './index.js',
-  },
+  target: 'web',
+  performance: { hints: false },
   output: {
-    path: `${__dirname}/build`,
-    filename: '[name].bundle.js',
-    publicPath: '/assets',
+    path: path.resolve(__dirname, 'dist'),
+    filename: DEV ? '[name].bundle.js' : '[name].[chunkhash].js',
+    chunkFilename: DEV ? '[name].bundle.js' : '[name].[chunkhash].js',
+    publicPath: '/assets/',
   },
   devServer: {
     contentBase: `${__dirname}/src`,
     historyApiFallback: true,
+    stats: {
+      chunks: false,
+    },
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                'es2015',
-                'react',
-                'react-hmre',
-              ],
-              // TODO: maybe add babel-transform-runtime
-              // http://babeljs.io/docs/plugins/transform-runtime/
-              // transform-runtime
-              plugins: [
-                'syntax-dynamic-import',
-                'transform-class-properties',
-              ],
-            }
-          }
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(sass|scss)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ]
-      }
-    ]
-  }
 };
+
+export default merge.smart(
+  commonConfig,
+  cssConfig,
+  jsConfig
+);

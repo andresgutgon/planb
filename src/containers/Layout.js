@@ -6,6 +6,8 @@ import Miss from 'react-router/Miss';
 import * as Routes from '../routes/Routes';
 import Miss404 from '../routes/miss404';
 
+require('../styles/layout.scss');
+
 class Layout extends React.PureComponent {
   render() {
     // TODO: Add Header component here
