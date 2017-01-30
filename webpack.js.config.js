@@ -8,8 +8,8 @@ const DEV = true;
 
 const config = {
   entry: {
-    app: [
-      path.resolve(__dirname, 'src/index.js'),
+    main: [
+      path.resolve(__dirname, 'client/main.js'),
     ],
   },
   module: {
@@ -52,7 +52,7 @@ if (DEV) {
   const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
   const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
 
-  config.entry.app.unshift(
+  config.entry.main.unshift(
     'webpack-hot-middleware/client',
     'react-hot-loader/patch'
   );

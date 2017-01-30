@@ -13,21 +13,21 @@
 - [x] Add RedboxReact (helpful errors on development)
 - [ ] Transform project into a server side project
 
-- [] Add Mobx
-- [] Add bootstrap styles
-- [] Add CSSModules
-- [] Add Flow
-- [] Add react-boostrap
+- [ ] Add Mobx
+- [ ] Add bootstrap styles
+- [ ] Add CSSModules
+- [ ] Add Flow
+- [ ] Add react-boostrap
 
 ## Webpack TODO
-- [] Use HtmlWebpackPlugin
-- [] Make vendor bundle
-- [] Refactor Webpack config (optional before demo)
-- [] Setup Webpack for production
+- [ ] Use HtmlWebpackPlugin
+- [ ] Make vendor bundle
+- [ ] Refactor Webpack config (optional before demo)
+- [ ] Setup Webpack for production
 
 ## Future TODO
-- [] Investigate setup manifest. It's related with
-webworkers.
+- [ ] Investigate setup manifest. It's related with webworkers.
+- [ ] Pollyfill for Old browsers [polyfill.io](https://polyfill.io/v2/docs/) Check [this project](https://github.com/LWJGL/lwjgl3-www)
 
 ## NOTES on async routes
 Routes are lazy loaded in production. In development all the javascript

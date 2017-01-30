@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  #container
+
+  if ( production )
+    script !{bundle}
+  else
+    script(src=`/js/vendor.js`)
+    script(src=`/js/${bundle}`)
