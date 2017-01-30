@@ -11,17 +11,20 @@
 - [x] Add nprogress
 - [x] Add react-hot-loader
 - [x] Add RedboxReact (helpful errors on development)
-- [ ] Transform project into a server side project
+- [x] Make vendor bundle
+- [x] Transform project into a server side project
 
 - [ ] Add Mobx
+- [ ] Server on productin has a memory leak. Try to not use babel/register
+and pre compile server code
+- [ ] Process/minify vendor dll webpack bundle
 - [ ] Add bootstrap styles
-- [ ] Add CSSModules
+- [ ] Add CSSModules (or try Aphrodite)
 - [ ] Add Flow
 - [ ] Add react-boostrap
 
 ## Webpack TODO
-- [ ] Use HtmlWebpackPlugin
-- [ ] Make vendor bundle
+- [ ] Use HtmlWebpackPlugin (maybe not, we're using PUG templates)
 - [ ] Refactor Webpack config (optional before demo)
 - [ ] Setup Webpack for production
 
@@ -38,6 +41,7 @@ break React Hot Reloading.
 Start [reading here](http://survivejs.com/webpack/developing-with-webpack/splitting-configuration/)
 
 ## Webpack Dev Server
+**NOTE** Not used. We use webpack-hot-middelware + Express
 ```
 webpack-dev-server --progress --inline
 ```
@@ -51,4 +55,22 @@ webpack-dev-server --progress --inline
 * [react-hot-module-replacement-with-webpack](http://matthewlehner.net/react-hot-module-replacement-with-webpack/)
 
 ## DEVELOPMENT
+
+To make work development you have to run this commands in this order:
+
+### 1. Compile vendor dependencies
+Compile libraries. In vendor we put things that doesn't change too
+much like React or React-router.
+`yarn vendor`
+
+### 2. Compile global CSS
+Usually when developing you don't need to touch global CSS like
+boostrap. For that reason this is run before you start development
+`yarn styles`
+If you need to touch this styles you can open a new Terminal and run `yarn run styles-watch`.
+
+### 3. Fire Express server
+Here we're running a Express server that is using webpack middleware. So all
+JS app code is hot reloaded.
+**NOTE** Don't forget to run first `vendor` and `styles` commands.
 `yarn start`

@@ -4,19 +4,46 @@ doctype html
 html(lang="en-US")
   head
     meta(charset="utf-8")
-    title PlanB - JS fatigue 2017
+    if ( head && head.title )
+      !=head.title
+    else
+      title PlanB - Test
 
-    if (chunk)
+    link(rel="preload" as="style" href=`/css/${css}`)
+    link(rel="preload" as="script" href=`/js/${bundle}`)
+
+    if ( chunk )
       link(rel="preload" as="script" href=`/js/${chunk}`)
 
+    link(rel="stylesheet" href=`/css/${css}`)
     meta(name="viewport" content="width=device-width,initial-scale=1,user-scalable=no")
     meta(name="theme-color" content="#1b2426")
-    meta(name="application-name" content="planB")
+    meta(name="application-name" content="PLANB")
+    link(rel="manifest" href="/manifest.json")
 
-    if (production )
-      style !{css}
-    else
-      link(rel="stylesheet" href=`/css/${css}`)
+    if (head)
+      !=head.meta
+      !=head.link
 
-  body(class=bodyClass)
+    if (aphrodite && aphrodite.content.length)
+      style(data-aphrodite="")!=aphrodite.content
+
+  body
     block content
+
+    if (renderApp)
+      if (aphrodite)
+        script(id="aphro-hydrate" type="application/json")
+          !=JSON.stringify(aphrodite.renderedClassNames)
+
+      if ( chunks )
+        script!=`manifest=${chunks};`
+
+      if ( ie )
+        //- https://polyfill.io/v2/docs/features/
+        script(src="https://cdn.polyfill.io/v2/polyfill.min.js?flags=gated&features=requestAnimationFrame,Element.prototype.classList")
+        script.
+          for ( var i in manifest ) if ( manifest.hasOwnProperty(i) ) manifest[i] += '?v=' + new Date().getTime();
+
+      script(src=`/js/vendor.js`)
+      script(src=`/js/${bundle}` async defer)

@@ -1,10 +1,4 @@
-var path = require('path');
-var merge = require('webpack-merge');
+const jsConfig = require('./webpack.js.config');
+const cssConfig = require('./webpack.css.config');
 
-var jsConfig = require('./webpack.js.config');
-var cssConfig = require('./webpack.css.config');
-
-module.exports = merge.smart(
-  cssConfig,
-  jsConfig
-);
+module.exports = [jsConfig, cssConfig];

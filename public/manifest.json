@@ -1,0 +1,44 @@
+
+{
+  "name": "PlanB",
+  "description": "Testing JS technologies. To be defined",
+  "lang": "en",
+  "dir": "ltr",
+  "short_name": "planb",
+  "icons": [
+    {
+      "src": "/img/fav/128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/fav/144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/fav/152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/fav/192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/fav/256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+        "src": "/img/fav/512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#1b2426",
+  "theme_color": "#1b2426"
+}

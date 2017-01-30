@@ -9,7 +9,6 @@ import Header from '../components/Header';
 
 class Layout extends React.PureComponent {
   render() {
-    // TODO: Add Header component here
     return (
       <div>
         <Header />
@@ -18,7 +17,7 @@ class Layout extends React.PureComponent {
           <Link to="/hello-world">Hello World</Link> -
           <Link to="/bye">Bye Bye</Link> -
         </div>
-        <div id="planb-routes">
+        <div id="app-routes">
           <Match exactly={true} pattern="/" component={Routes.Home} />
           <Match exactly={true} pattern="/hello-world" component={Routes.HelloWorld} />
           <Match exactly={true} pattern="/bye" component={Routes.Bye} />

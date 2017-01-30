@@ -4,9 +4,7 @@ const DllPlugin = require('webpack/lib/DllPlugin');
 
 const config = {
   target: 'web',
-  performance: {
-    hints: false
-  },
+  performance: { hints: false },
   entry: {
     vendor: [
       'babel-polyfill',
@@ -14,24 +12,12 @@ const config = {
       'react-dom',
       'nprogress',
       'react-router',
-    ]
+    ],
   },
   output: {
     path: path.resolve(__dirname, 'public/js'),
     filename: '[name].js',
     library: 'vendor',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: [
-          path.resolve(__dirname, 'node_modules')
-        ],
-        include: __dirname,
-        loader: 'babel-loader?cacheDirectory'
-      }
-    ]
   },
   plugins: [
     new DefinePlugin({

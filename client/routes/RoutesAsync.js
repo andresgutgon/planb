@@ -1,6 +1,9 @@
 import React from 'react';
 import nprogress from 'nprogress';
 
+import LoaderSpinner from '../components/LoaderSpinner';
+import preserver from './Preserver';
+
 /**
  * Hight Order Component to make code splitting with React Router 4
  * Taken from here: https://medium.com/@apostolos/server-side-rendering-code-splitting-and-hot-reloading-with-react-router-v4-87239cfc172c#.epngc9khn
@@ -51,7 +54,17 @@ function asyncRoute(getComponent) {
       if ( Component !== null ) {
         return <Component {...this.props} />
       }
-      return null; // or <div /> with a loading spinner, etc..
+
+      if (preserver.has()) {
+        console.log('preserver');
+        return preserver.render();
+      } else {
+        return (
+          <div className="container text-xs-center" style={{padding:'25vh 0'}}>
+            <LoaderSpinner size={128} delay={true} />
+          </div>
+        );
+      }
     }
   }
 }
@@ -69,6 +82,6 @@ function asyncRoute(getComponent) {
  * IMPORTANT:
  * remember to add the route also in './RoutesAsync.js'
  */
-export const Home = asyncRoute(() => import('./Home'));
-export const HelloWorld = asyncRoute(() => import('./HelloWorld'));
-export const Bye = asyncRoute(() => import('./Bye'));
+export const Home = asyncRoute(() => import('./home'));
+export const HelloWorld = asyncRoute(() => import('./hello-world'));
+export const Bye = asyncRoute(() => import('./bye'));
