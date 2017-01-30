@@ -49,3 +49,6 @@ webpack-dev-server --progress --inline
 * [Code Splitting article](https://medium.com/@apostolos/server-side-rendering-code-splitting-and-hot-reloading-with-react-router-v4-87239cfc172c#.epngc9khn)
 * [Code splitting project](https://github.com/LWJGL/lwjgl3-www/)
 * [react-hot-module-replacement-with-webpack](http://matthewlehner.net/react-hot-module-replacement-with-webpack/)
+
+## DEVELOPMENT
+`yarn start`

@@ -3,40 +3,30 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
 const webpack = require('webpack');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 
-// TODO: implement production build
-const DEV = true;
+const PRODUCTION = process.env.NODE_ENV === 'production';
+const DEV = !PRODUCTION;
 
 const config = {
+  target: 'web',
+  performance: { hints: false },
   entry: {
     main: [
       path.resolve(__dirname, 'client/main.js'),
     ],
   },
+  output: {
+    path: path.resolve(__dirname, 'public/js'),
+    filename: DEV ? '[name].js' : '[name].[chunkhash].js',
+    chunkFilename: DEV ? '[name].js' : '[name].[chunkhash].js',
+    publicPath: '/js/'
+  },
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                'es2015',
-                'react',
-                'stage-0'
-              ],
-              // TODO: maybe add babel-transform-runtime
-              // http://babeljs.io/docs/plugins/transform-runtime/
-              // transform-runtime
-              plugins: [
-                'syntax-dynamic-import',
-                'transform-class-properties',
-                'react-hot-loader/babel',
-              ],
-            }
-          }
-        ],
         exclude: /node_modules/,
+        include: __dirname,
+        loader: 'babel-loader?cacheDirectory'
       },
     ]
   },
@@ -51,6 +41,7 @@ const config = {
 if (DEV) {
   const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
   const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
+  const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
 
   config.entry.main.unshift(
     'webpack-hot-middleware/client',
@@ -68,7 +59,11 @@ if (DEV) {
 
   config.plugins.push(
     new HotModuleReplacementPlugin(),
-    new NoEmitOnErrorsPlugin()
+    new NoEmitOnErrorsPlugin(),
+    new DllReferencePlugin({
+      context: '.',
+      manifest: require('./public/js/vendor-manifest.json')
+    })
   );
 }
 

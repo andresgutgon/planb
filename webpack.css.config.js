@@ -3,16 +3,24 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
-// TODO: make production webpack build
-// const PRODUCTION = process.env.NODE_ENV === 'production';
-const PRODUCTION = false;
+const PRODUCTION = process.env.NODE_ENV === 'production';
 const DEV = !PRODUCTION;
 
 module.exports = {
-  entry: {
-    coreCSS: path.resolve(__dirname, 'src/styles/layout.scss'),
+  target: 'web',
+  performance: {
+    hints: false
   },
-  devtool: DEV ? 'inline-source-map' : undefined,
+  entry: {
+    bundle: path.resolve(__dirname, 'client/styles/layout.scss'),
+  },
+  output: {
+    path: path.resolve(__dirname, 'public/css'),
+    filename: '[name].css',
+    chunkFilename: '[name].[id].js',
+    publicPath: '/css/'
+  },
+  devtool: undefined,
   module: {
     rules: [
       {
@@ -20,7 +28,7 @@ module.exports = {
         // Extract it into index.html head
         test: /\.scss?$/,
         include: [
-          path.resolve(__dirname, 'src/styles'),
+          path.resolve(__dirname, 'client/styles'),
         ],
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
