@@ -1,9 +1,13 @@
 // Server
 import path from 'path';
 import express from 'express';
-import favicon from 'serve-favicon';
 import { argv } from 'yargs';
 import chalk from 'chalk';
+
+import initExpress from './init';
+// Middlewares
+import faviconMiddleware from './middleware/favicon';
+import hotMiddleware from './middleware/hot';
 
 // Server-side rendering
 import React from 'react';
@@ -12,41 +16,21 @@ import { ServerRouter, createServerRenderContext } from 'react-router';
 import { StyleSheetServer } from 'aphrodite/no-important';
 import Layout from '../client/containers/Layout';
 
-const reactCache = {};
 let chunks = '{}';
 
 // ------------------------------------------------------------------------------
 // Initialize & Configure Application
 // ------------------------------------------------------------------------------
-const PRODUCT = 'planb.org';
-const app = express();
 const config = require('../config.json');
-
-app.set('port', config.server.port);
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
-
-app.enable('case sensitive routing');
-app.enable('strict routing');
-app.disable('x-powered-by');
-app.locals.development = app.get('env') === 'development';
-app.locals.production = !app.locals.development;
-
-// View options
-app.locals.doctype = 'html';
-app.locals.pretty = app.locals.development || argv.pretty ? '  ' : false;
-app.locals.cache = app.locals.production && argv.nocache === undefined;
-
-if ( app.locals.development ) {
-  console.log(chalk.yellow(`Starting ${PRODUCT} in ${app.get('env')} mode`));
-}
+const PRODUCT = config.appName;
+const app = initExpress(config);
 
 // ------------------------------------------------------------------------------
 // Middleware
 // ------------------------------------------------------------------------------
-app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
+app.use(faviconMiddleware);
 
-if ( app.locals.development ) {
+if (app.locals.development) {
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.js.config');
   const webpackCompiler = webpack(webpackConfig);
@@ -99,22 +83,6 @@ app.get('*', (req, res, next) => {
 
   let html, css, head, chunk;
 
-  if ( reactCache[req.path] !== undefined ) {
-    // We have already server-side rendered, get data from the cache
-    ({html, css, head, chunk} = reactCache[req.path]);
-
-    // We're done, render the view
-    res.render('index', {
-      html,
-      head,
-      chunks,
-      chunk,
-      aphrodite: css,
-      ie: req.get('user-agent').indexOf('MSIE') > -1,
-    });
-    return;
-  }
-
   const context = createServerRenderContext();
   ({html, css} = StyleSheetServer.renderStatic( // https://github.com/Khan/aphrodite
     () => renderToString( // https://react-router.now.sh/ServerRouter
@@ -155,14 +123,6 @@ app.get('*', (req, res, next) => {
       chunk = config.routes[req.path];
     }
   }
-
-  // OK, cache view data
-  reactCache[req.path] = {
-    html,
-    css,
-    head,
-    chunk,
-  };
 
   // We're done, render the view
   res.render('index', {
