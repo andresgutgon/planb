@@ -27,26 +27,7 @@ const { app, chunks } = initExpress(config);
 // Middleware
 // ------------------------------------------------------------------------------
 app.use(faviconMiddleware);
-
-if (app.locals.development) {
-  const webpack = require('webpack');
-  const webpackConfig = require('../webpack.js.config');
-  const webpackCompiler = webpack(webpackConfig);
-
-  app.use(require('webpack-dev-middleware')(webpackCompiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath,
-    stats: {
-      colors: true,
-      reasons: false,
-    }
-  }));
-
-  app.use(require('webpack-hot-middleware')(webpackCompiler, {
-    path: '/__webpack_hmr',
-    heartbeat: 10 * 1000,
-  }));
-}
+app.use(hotMiddleware(app));
 
 // ------------------------------------------------------------------------------
 // Routing
