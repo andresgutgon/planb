@@ -1,6 +1,5 @@
 // Server
 import path from 'path';
-import express from 'express';
 import { argv } from 'yargs';
 import chalk from 'chalk';
 
@@ -8,6 +7,7 @@ import initExpress from './init';
 // Middlewares
 import faviconMiddleware from './middleware/favicon';
 import hotMiddleware from './middleware/hot';
+import staticMiddleware from './middleware/static';
 
 // Server-side rendering
 import React from 'react';
@@ -24,25 +24,15 @@ const PRODUCT = config.server.appName;
 const { app, chunks } = initExpress(config);
 
 // ------------------------------------------------------------------------------
-// Middleware
+// Middlewares
 // ------------------------------------------------------------------------------
 app.use(faviconMiddleware);
 app.use(hotMiddleware(app));
+app.use(staticMiddleware);
 
 // ------------------------------------------------------------------------------
 // Routing
 // ------------------------------------------------------------------------------
-
-// Static Assets
-app.use(express.static(path.join(__dirname, '../public'), {
-  index: false,
-  setHeaders: res => {
-    // Send immutable Cache-Control flag
-    // Set s-maxage to 1 month because JS/CSS are updated often, no reason to keep them in CloudFront
-    // https://bitsup.blogspot.com/2016/05/cache-control-immutable.html
-    res.set('Cache-Control', 'public,max-age=31536000,s-maxage=2592000,immutable');
-  }
-}));
 
 // React server-side rendering
 app.get('*', (req, res, next) => {
