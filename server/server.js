@@ -12,8 +12,7 @@ import serverErrorMiddleware from './middleware/500';
 // Server-side rendering
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { ServerRouter, createServerRenderContext } from 'react-router';
-import { StyleSheetServer } from 'aphrodite/no-important';
+import StaticRouter from 'react-router-dom/StaticRouter';
 import Layout from '../client/containers/Layout';
 
 // ------------------------------------------------------------------------------
@@ -42,30 +41,22 @@ app.get('*', (req, res, next) => {
   // });
   // return;
 
-  let html, css, head, chunk;
+  let css, head, chunk;
 
-  const context = createServerRenderContext();
-  ({html, css} = StyleSheetServer.renderStatic( // https://github.com/Khan/aphrodite
-    () => renderToString( // https://react-router.now.sh/ServerRouter
-      <ServerRouter
-        location={req.url}
-        context={context}
-      >
-        {
-          ({action, location, router}) =>
-            <Layout router={router} action={action} location={location}/>
-        }
-      </ServerRouter>
-    )
-  ));
-  const result = context.getResult();
+  const context = {};
+  const html = renderToString(
+    <StaticRouter location={req.url} context={context}>
+      <Layout/>
+    </StaticRouter>
+  );
+  const result = context;
 
-  if ( result.redirect ) {
+  if (result.redirect) {
     res.redirect(302, result.redirect.pathname);
     return;
   }
 
-  if ( result.missed ) {
+  if (result.missed) {
     // We could re-render here, for the Miss component to pickup the 404.
     // Instead, let the client do the hard work
     // NOTE: It is unfortunate that we have to server-side render for invalid URLs
@@ -77,7 +68,7 @@ app.get('*', (req, res, next) => {
     return;
   }
 
-  if ( app.locals.production ) {
+  if (req.app.locals.production) {
     // Get code-split chunk's relative path for this path
     // @see ./process-manifest.js to see how we populate config -- not clean, but it works
     if ( config.routes[req.path] !== undefined ) {
@@ -91,7 +82,6 @@ app.get('*', (req, res, next) => {
     head,
     chunks,
     chunk,
-    aphrodite: css,
     ie: req.get('user-agent').indexOf('MSIE') > -1,
   });
 });

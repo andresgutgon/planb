@@ -25,17 +25,10 @@ html(lang="en-US")
       !=head.meta
       !=head.link
 
-    if (aphrodite && aphrodite.content.length)
-      style(data-aphrodite="")!=aphrodite.content
-
   body
     block content
 
     if (renderApp)
-      if (aphrodite)
-        script(id="aphro-hydrate" type="application/json")
-          !=JSON.stringify(aphrodite.renderedClassNames)
-
       if ( chunks )
         script!=`manifest=${chunks};`
 

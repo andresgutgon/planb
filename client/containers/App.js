@@ -1,15 +1,14 @@
 import React from 'react';
-import BrowserRouter from 'react-router/BrowserRouter';
+import BrowserRouter from 'react-router-dom/BrowserRouter';
 
 import Layout from './Layout';
 
-const App = (props) => (
-  <BrowserRouter>
-    {
-      ({ action, location, router }) =>
-        <Layout router={router} action={action} location={location} store={props.store} />
-    }
-  </BrowserRouter>
-);
+const App = ({ store }) => {
+  return (
+    <BrowserRouter>
+      <Layout/>
+    </BrowserRouter>
+  )
+};
 
 export default App;

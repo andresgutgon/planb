@@ -11,7 +11,7 @@ const config = {
       'react',
       'react-dom',
       'nprogress',
-      'react-router',
+      'react-router-dom',
     ],
   },
   output: {

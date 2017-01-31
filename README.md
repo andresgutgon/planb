@@ -15,11 +15,11 @@
 - [x] Transform project into a server side project
 
 - [ ] Add Mobx
+- [ ] Add CSSModules (with Server side compatibility)
 - [ ] Server on productin has a memory leak. Try to not use babel/register
 and pre compile server code
 - [ ] Process/minify vendor dll webpack bundle
 - [ ] Add bootstrap styles
-- [ ] Add CSSModules (or try Aphrodite)
 - [ ] Add Flow
 - [ ] Add react-boostrap
 
@@ -60,7 +60,7 @@ To make work development you have to run this commands in this order:
 
 ### 1. Compile vendor dependencies
 Compile libraries. In vendor we put things that doesn't change too
-much like React or React-router.
+often like React or ~~React-routeR~~ ReactRouterDom :trollface:.
 `yarn vendor`
 
 ### 2. Compile global CSS

@@ -4,8 +4,7 @@ block vars
   - renderApp = true
 
 block content
-  if ( html )
-    #container
-      div!= html
-  else
-    #container
+  #container
+    if (html)
+      #container
+        div!= html

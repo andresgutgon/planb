@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import Link from 'react-router/Link';
-import Match from 'react-router/Match';
-import Miss from 'react-router/Miss';
+import Link from 'react-router-dom/Link';
+import Route from 'react-router-dom/Route';
+import Switch from 'react-router-dom/Switch';
 
 import * as Routes from '../routes/Routes';
 import Miss404 from '../routes/miss404';
@@ -18,11 +18,13 @@ class Layout extends React.PureComponent {
           <Link to="/bye">Bye Bye</Link> -
         </div>
         <div id="app-routes">
-          <Match exactly={true} pattern="/" component={Routes.Home} />
-          <Match exactly={true} pattern="/hello-world" component={Routes.HelloWorld} />
-          <Match exactly={true} pattern="/bye" component={Routes.Bye} />
+          <Switch>
+            <Route exact path="/" component={Routes.Home} />
+            <Route exact path="/hello-world" component={Routes.HelloWorld} />
+            <Route exact path="/bye" component={Routes.Bye} />
 
-          <Miss component={Miss404} />
+            <Route component={Miss404} />
+          </Switch>
         </div>
       </div>
     );
