@@ -16,14 +16,12 @@ import { ServerRouter, createServerRenderContext } from 'react-router';
 import { StyleSheetServer } from 'aphrodite/no-important';
 import Layout from '../client/containers/Layout';
 
-let chunks = '{}';
-
 // ------------------------------------------------------------------------------
 // Initialize & Configure Application
 // ------------------------------------------------------------------------------
 const config = require('../config.json');
-const PRODUCT = config.appName;
-const app = initExpress(config);
+const PRODUCT = config.server.appName;
+const { app, chunks } = initExpress(config);
 
 // ------------------------------------------------------------------------------
 // Middleware
@@ -48,14 +46,6 @@ if (app.locals.development) {
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000,
   }));
-
-  app.locals.bundle = 'main.js';
-  app.locals.css = 'styles.css';
-} else {
-  chunks = JSON.stringify(config.manifest.chunks);
-  app.locals.bundle = config.manifest.js;
-  app.locals.css = config.manifest.css;
-
 }
 
 // ------------------------------------------------------------------------------
