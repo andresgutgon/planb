@@ -2,21 +2,6 @@ import { argv } from 'yargs';
 import chalk from 'chalk';
 import express from 'express';
 
-function setWebpackAssets(app, config) {
-  let chunks = {};
-  if (app.locals.development) {
-    chunks = JSON.stringify({});
-    app.locals.bundle = 'main.js';
-    app.locals.css = 'styles.css';
-  } else {
-    chunks = JSON.stringify(config.manifest.chunks);
-    app.locals.bundle = config.manifest.js;
-    app.locals.css = config.manifest.css;
-  }
-
-  return chunks;
-}
-
 export default function initExpress(config) {
   const app = express();
 
@@ -38,10 +23,5 @@ export default function initExpress(config) {
     );
   }
 
-  const chunks = setWebpackAssets(app, config);
-
-  return {
-    app,
-    chunks,
-  };
+  return app;
 }

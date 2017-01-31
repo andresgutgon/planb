@@ -13,8 +13,9 @@
 - [x] Add RedboxReact (helpful errors on development)
 - [x] Make vendor bundle
 - [x] Transform project into a server side project
+- [x] Add Mobx
+- [ ] Refactor reactMiddleware to use Mobx provider
 
-- [ ] Add Mobx
 - [ ] Add CSSModules (with Server side compatibility)
 - [ ] Server on productin has a memory leak. Try to not use babel/register
 and pre compile server code

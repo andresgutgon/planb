@@ -6,21 +6,17 @@ import initExpress from './init';
 import faviconMiddleware from './middleware/favicon';
 import hotMiddleware from './middleware/hot';
 import staticMiddleware from './middleware/static';
+import reactMiddleware from './middleware/react';
 import notFoundMiddleware from './middleware/404';
 import serverErrorMiddleware from './middleware/500';
 
 // Server-side rendering
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import StaticRouter from 'react-router-dom/StaticRouter';
-import Layout from '../client/containers/Layout';
-
 // ------------------------------------------------------------------------------
 // Initialize & Configure Application
 // ------------------------------------------------------------------------------
 const config = require('../config.json');
 const PRODUCT = config.server.appName;
-const { app, chunks } = initExpress(config);
+const app = initExpress(config);
 
 // ------------------------------------------------------------------------------
 // Middlewares
@@ -28,64 +24,7 @@ const { app, chunks } = initExpress(config);
 app.use(faviconMiddleware);
 app.use(hotMiddleware(app));
 app.use(staticMiddleware);
-
-// ------------------------------------------------------------------------------
-// Routing
-// ------------------------------------------------------------------------------
-
-// React server-side rendering
-app.get('*', (req, res, next) => {
-  // Uncomment to skip server-side rendering
-  // res.render('index', {
-  //   ie: req.get('user-agent').indexOf('MSIE') > -1,
-  // });
-  // return;
-
-  let css, head, chunk;
-
-  const context = {};
-  const html = renderToString(
-    <StaticRouter location={req.url} context={context}>
-      <Layout/>
-    </StaticRouter>
-  );
-  const result = context;
-
-  if (result.redirect) {
-    res.redirect(302, result.redirect.pathname);
-    return;
-  }
-
-  if (result.missed) {
-    // We could re-render here, for the Miss component to pickup the 404.
-    // Instead, let the client do the hard work
-    // NOTE: It is unfortunate that we have to server-side render for invalid URLs
-    res.status(404).render('index', {
-      head: {
-        title: '<title>Page not found</title>'
-      }
-    });
-    return;
-  }
-
-  if (req.app.locals.production) {
-    // Get code-split chunk's relative path for this path
-    // @see ./process-manifest.js to see how we populate config -- not clean, but it works
-    if ( config.routes[req.path] !== undefined ) {
-      chunk = config.routes[req.path];
-    }
-  }
-
-  // We're done, render the view
-  res.render('index', {
-    html,
-    head,
-    chunks,
-    chunk,
-    ie: req.get('user-agent').indexOf('MSIE') > -1,
-  });
-});
-
+app.use(reactMiddleware(config));
 app.use(notFoundMiddleware);
 app.use(serverErrorMiddleware);
 
