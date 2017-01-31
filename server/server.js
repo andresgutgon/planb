@@ -1,13 +1,13 @@
-// Server
-import path from 'path';
-import { argv } from 'yargs';
 import chalk from 'chalk';
 
 import initExpress from './init';
+
 // Middlewares
 import faviconMiddleware from './middleware/favicon';
 import hotMiddleware from './middleware/hot';
 import staticMiddleware from './middleware/static';
+import notFoundMiddleware from './middleware/404';
+import serverErrorMiddleware from './middleware/500';
 
 // Server-side rendering
 import React from 'react';
@@ -96,69 +96,18 @@ app.get('*', (req, res, next) => {
   });
 });
 
-// Page not found
-
-// eslint-disable-next-line
-app.use((req, res, next) => {
-  res.status(404);
-
-  if ( req.accepts('html', '*/*') === 'html' ) {
-    res.render('404');
-    return;
-  }
-
-  if ( req.accepts('json', '*/*') === 'json' ) {
-    res.send({error: 'Not found'});
-    return;
-  }
-
-  res.type('txt').send();
-});
-
-// Error page
-app.use((err, req, res, next) => {
-  res.status(500);
-
-  // HTML
-  if ( req.accepts('html', '*/*') === 'html' ) {
-    res.render('500', {error: err});
-    return;
-  }
-
-  // JSON
-  if ( req.accepts('json', '*/*') === 'json' ) {
-    if ( err instanceof Error ) {
-      if ( req.app.locals.development ) {
-        const errorResponse = {};
-
-        Object.getOwnPropertyNames(err).forEach(key => {
-          errorResponse[key] = err[key];
-        });
-
-        return res.json({error: errorResponse});
-      } else {
-        // Only keep message in production because Error() may contain sensitive information
-        return res.json({error: {message: err.message}});
-      }
-    } else {
-      return res.send({error: err});
-    }
-  }
-
-  // default to plain-text.
-  // keep only message
-  res.type('txt').send(err.message);
-});
+app.use(notFoundMiddleware);
+app.use(serverErrorMiddleware);
 
 // ------------------------------------------------------------------------------
 // Launch Server
 // ------------------------------------------------------------------------------
-
 const server = app.listen(app.get('port'), () => {
   let host = server.address().address;
   let port = server.address().port;
 
-  console.log(chalk.blue(`${PRODUCT} listening at http://${host}:${port}`));
+  host = host === '::' ? 'localhost' : host;
+  console.log(chalk.green(`${PRODUCT} listening at http://${host}:${port}`));
 });
 
 server.on('error', (err) => {
